@@ -2,11 +2,14 @@ package com.anwesome.ui.bottomnavigationbarkotlin
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Point
 import android.hardware.display.DisplayManager
+import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.HorizontalScrollView
 
 /**
@@ -63,12 +66,28 @@ class BottomNavigationBar(ctx:Context):ViewGroup(ctx) {
         fun addButton(bitmap: Bitmap) {
             bar?.addButton(bitmap)
         }
+        fun hideActionBars(activity: Activity) {
+            if(activity is AppCompatActivity) {
+                var actionBar = activity.supportActionBar
+                actionBar?.hide()
+            }
+            else {
+                var actionBar = activity.actionBar
+                actionBar?.hide()
+            }
+        }
+        fun showAsFullScreen(activity: Activity) {
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         fun show(activity: Activity) {
             if(viewCreated) {
+                hideActionBars(activity)
+                showAsFullScreen(activity)
+                activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 bar?.setBackgroundColor(Color.parseColor("#9E9E9E"))
                 var scrollView = HorizontalScrollView(activity)
                 scrollView.addView(bar, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
-                scrollView.y = (9*(bar?.h?:0))/10 - (bar?.hSize?:0).toFloat()
+                scrollView.y = (bar?.h?:0) - (bar?.hSize?:0).toFloat()
                 activity.addContentView(scrollView, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
             }
         }
