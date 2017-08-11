@@ -3,6 +3,7 @@ package com.anwesome.ui.bottomnavigationbarkotlin
 import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Point
 import android.hardware.display.DisplayManager
 import android.view.ViewGroup
@@ -26,7 +27,7 @@ class BottomNavigationBar(ctx:Context):ViewGroup(ctx) {
         display.getRealSize(size)
         w = size.x
         h = size.y
-        hSize = h/9
+        hSize = h/8
     }
     override fun onMeasure(wspec:Int,hspec:Int) {
         var wView = 0
@@ -64,8 +65,10 @@ class BottomNavigationBar(ctx:Context):ViewGroup(ctx) {
         }
         fun show(activity: Activity) {
             if(viewCreated) {
+                bar?.setBackgroundColor(Color.parseColor("#9E9E9E"))
                 var scrollView = HorizontalScrollView(activity)
                 scrollView.addView(bar, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
+                scrollView.y = (9*(bar?.h?:0))/10 - (bar?.hSize?:0).toFloat()
                 activity.addContentView(scrollView, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT))
             }
         }
