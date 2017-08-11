@@ -9,7 +9,7 @@ import android.widget.Button
 /**
  * Created by anweshmishra on 11/08/17.
  */
-class BottomNavigationBarButton(ctx:Context,var bitmap: Bitmap):View(ctx) {
+class BottomNavigationBarButton(ctx:Context,var bitmap: Bitmap,var controller: ButtonController):View(ctx) {
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     val renderer = Renderer()
     override fun onDraw(canvas: Canvas) {
@@ -18,7 +18,7 @@ class BottomNavigationBarButton(ctx:Context,var bitmap: Bitmap):View(ctx) {
     override fun onTouchEvent(event:MotionEvent):Boolean {
         when(event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                controller.startUpdating(this)
             }
         }
         return true

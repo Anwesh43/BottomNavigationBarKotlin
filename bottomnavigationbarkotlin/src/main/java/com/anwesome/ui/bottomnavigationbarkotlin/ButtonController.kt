@@ -9,7 +9,7 @@ class ButtonController {
     var animated = false
     var state = State()
     fun update() {
-        if(animated) {
+        while(animated) {
             try {
                 state.update()
                 if(state.stopped()) {
@@ -27,6 +27,7 @@ class ButtonController {
     }
     fun startUpdating(button:BottomNavigationBarButton) {
         curr = button
+        update()
     }
     class State {
         var scale:Float = 0.0f

@@ -2,6 +2,7 @@ package com.anwesome.ui.bottomnavigationbarkotlin
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Point
 import android.hardware.display.DisplayManager
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ class BottomNavigationBar(ctx:Context):ViewGroup(ctx) {
     var w:Int = 0
     var h:Int = 0
     var hSize:Int = 0
+    var controller = ButtonController()
     init {
         initWH(ctx)
     }
@@ -44,8 +46,9 @@ class BottomNavigationBar(ctx:Context):ViewGroup(ctx) {
         }
 
     }
-    fun addButton() {
-
+    fun addButton(bitmap:Bitmap) {
+        var button = BottomNavigationBarButton(context,bitmap,controller)
+        addView(button, LayoutParams(h/12,h/12))
     }
     companion object {
         var viewCreated = false
@@ -55,6 +58,9 @@ class BottomNavigationBar(ctx:Context):ViewGroup(ctx) {
                 bar = BottomNavigationBar(activity)
                 viewCreated = true
             }
+        }
+        fun addButton(bitmap: Bitmap) {
+            bar?.addButton(bitmap)
         }
         fun show(activity: Activity) {
             if(viewCreated) {
